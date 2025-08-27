@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glitch Overlay Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            margin: 0;
+            text-align: center;
+            text-shadow: 0 0 20px #00ff00;
+            animation: pulse 2s infinite;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            text-align: center;
+            opacity: 0.8;
+        }
+        
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10000;
+        }
+        
+        button {
+            background: #000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background: #00ff00;
+            color: #000;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button onclick="GlitchUtils.stop()">停止</button>
+        <button onclick="restartGlitch()">再開</button>
+        <button onclick="GlitchUtils.burst(2000)">バースト</button>
+        <button onclick="changeColors()">色変更</button>
+    </div>
+    
+    <h1>GLITCH EFFECT</h1>
+    <p>このページはグリッチエフェクトのデモです</p>
+    <p>画面上にランダムなグリッチが発生します</p>
+    <p>左上のボタンで制御できます</p>
+    
+    <script>
+        function restartGlitch() {
+            GlitchUtils.start({
+                intensity: 0.5,
+                randomTiming: true,
+                colors: {
+                    scanline: '#00ff00',
+                    noise: '#ffffff',
+                    glitchR: '#ff0000',
+                    glitchG: '#00ff00',
+                    glitchB: '#0000ff',
+                    aberration: '#ff00ff'
+                }
+            });
+        }
+        
+        function changeColors() {
+            const colors = [
+                { scanline: '#ff0000', glitchR: '#ff0000', glitchG: '#ffff00', glitchB: '#ff00ff' },
+                { scanline: '#0080ff', glitchR: '#0080ff', glitchG: '#00ffff', glitchB: '#8000ff' },
+                { scanline: '#ff8000', glitchR: '#ff8000', glitchG: '#ffff00', glitchB: '#ff0080' },
+                { scanline: '#00ff00', glitchR: '#ff0000', glitchG: '#00ff00', glitchB: '#0000ff' }
+            ];
+            
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            GlitchUtils.setColors(randomColor);
+        }
+    </script>
+    
+    <!-- Glitch Overlay を読み込み -->
+    <script src="noise.js"></script>
+</body>
+</html>
